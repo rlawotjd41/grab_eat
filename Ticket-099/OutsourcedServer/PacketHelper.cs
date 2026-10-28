@@ -49,9 +49,9 @@ namespace BattleArena
 
             while (headerRead < header.Length)
             {
-                int n = await Task.Run(() => socket.Receive(
-                    header, headerRead, header.Length - headerRead,
-                    SocketFlags.None));
+                int n = await socket.ReceiveAsync(new ArraySegment<byte>
+                    (header, headerRead, header.Length - headerRead),
+                    SocketFlags.None);
 
                 if (n == 0) return null;
                 headerRead += n;
@@ -67,9 +67,9 @@ namespace BattleArena
 
             while (bodyRead < bodyLength)
             {
-                int n = await Task.Run(() => socket.Receive(
-                    body, bodyRead, bodyLength - bodyRead,
-                    SocketFlags.None));
+                int n = await socket.ReceiveAsync(new ArraySegment<byte>
+                    (body, bodyRead, bodyLength - bodyRead),
+                    SocketFlags.None);
 
                 if (n == 0) return null;
                 bodyRead += n;
